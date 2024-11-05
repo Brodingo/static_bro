@@ -1,7 +1,13 @@
 import unittest
 
 from textnode import TextNode, TextType
-from inline_markdown import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
+from inline_markdown import (
+    split_nodes_delimiter,
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_image,
+    split_nodes_link,
+)
 
 
 class TextSplitNodesDelimiter(unittest.TestCase):
@@ -134,6 +140,42 @@ class TextSplitNodesDelimiter(unittest.TestCase):
         self.assertListEqual(
             result,
             links
+        )
+
+    def test_split_nodes_link(self):
+        node = TextNode(
+            "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        split_nodes = [
+            TextNode("This is text with a link ", TextType.TEXT),
+            TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode(
+                "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
+            ),
+        ]
+        self.assertListEqual(
+            new_nodes,
+            split_nodes
+        )
+
+    def test_split_nodes_image(self):
+        node = TextNode(
+            "This is text with an image ![image one](image1.jpg) and ![image two](image2.jpg)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        split_nodes = [
+            TextNode("This is text with an image ", TextType.TEXT),
+            TextNode("image one", TextType.IMAGE, "image1.jpg"),
+            TextNode(" and ", TextType.TEXT),
+            TextNode("image two", TextType.IMAGE, "image2.jpg"),
+        ]
+        self.assertListEqual(
+            new_nodes,
+            split_nodes
         )
 
 if __name__ == "__main__":
