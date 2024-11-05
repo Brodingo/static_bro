@@ -1,7 +1,7 @@
 import unittest
 
 from textnode import TextNode, TextType
-from inline_markdown import split_nodes_delimiter
+from inline_markdown import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
 
 
 class TextSplitNodesDelimiter(unittest.TestCase):
@@ -82,6 +82,59 @@ class TextSplitNodesDelimiter(unittest.TestCase):
         ]
         self.assertListEqual(new_nodes,result_nodes)
 
+    def test_extract_markdown_images(self):
+        text = "here is my ![image one](image1.jpg)"
+        result = extract_markdown_images(text)
+        images = [("image one", "image1.jpg")]
+        self.assertListEqual(
+            result,
+            images
+        )
+
+    def test_extract_markdown_images_multiple(self):
+        text = "here is my ![image one](image1.jpg) and then my ![image two](image2.jpg)"
+        result = extract_markdown_images(text)
+        images = [("image one", "image1.jpg"),("image two", "image2.jpg")]
+        self.assertListEqual(
+            result,
+            images
+        )
+
+    def test_extract_markdown_images_with_link(self):
+        text = "here is my ![image one](image1.jpg) and then my link [image two](image2.jpg)"
+        result = extract_markdown_images(text)
+        images = [("image one", "image1.jpg")]
+        self.assertListEqual(
+            result,
+            images
+        )
+
+    def test_extract_markdown_links(self):
+        text = "here is my link [image one](image1.jpg)"
+        result = extract_markdown_links(text)
+        links = [("image one", "image1.jpg")]
+        self.assertListEqual(
+            result,
+            links
+        )
+
+    def test_extract_markdown_links_mutiple(self):
+        text = "here is my link [image one](image1.jpg) and then my other link [image two](image2.jpg)"
+        result = extract_markdown_links(text)
+        links = [("image one", "image1.jpg"), ("image two", "image2.jpg")]
+        self.assertListEqual(
+            result,
+            links
+        )
+
+    def test_extract_markdown_links_wit_image(self):
+        text = "here is my link [image one](image1.jpg) and then my image ![image two](image2.jpg)"
+        result = extract_markdown_links(text)
+        links = [("image one", "image1.jpg")]
+        self.assertListEqual(
+            result,
+            links
+        )
 
 if __name__ == "__main__":
     unittest.main()
