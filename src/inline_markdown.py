@@ -39,16 +39,16 @@ def split_nodes_image(old_nodes):
             new_nodes.append(node)
             continue
         original_text = node.text
-        sub_nodes = []
         for image in images:
             image_alt = image[0]
             image_url = image[1]
             split_nodes = original_text.split(f"![{image_alt}]({image_url})", 1)
             if split_nodes[0] != '':
-                sub_nodes.append(TextNode(split_nodes[0],TextType.TEXT))
-            sub_nodes.append(TextNode(image_alt, TextType.IMAGE, image_url))
+                new_nodes.append(TextNode(split_nodes[0],TextType.TEXT))
+            new_nodes.append(TextNode(image_alt, TextType.IMAGE, image_url))
             original_text = split_nodes[1]
-        new_nodes.extend(sub_nodes)
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, TextType.TEXT))
     return new_nodes
 
 def split_nodes_link(old_nodes):
@@ -59,14 +59,14 @@ def split_nodes_link(old_nodes):
             new_nodes.append(node)
             continue
         original_text = node.text
-        sub_nodes = []
         for link in links:
             link_title = link[0]
             link_url = link[1]
             split_nodes = original_text.split(f"[{link_title}]({link_url})", 1)
             if split_nodes[0] != '':
-                sub_nodes.append(TextNode(split_nodes[0],TextType.TEXT))
-            sub_nodes.append(TextNode(link_title, TextType.LINK, link_url))
+                new_nodes.append(TextNode(split_nodes[0],TextType.TEXT))
+            new_nodes.append(TextNode(link_title, TextType.LINK, link_url))
             original_text = split_nodes[1]
-        new_nodes.extend(sub_nodes)
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, TextType.TEXT))
     return new_nodes

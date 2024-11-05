@@ -144,7 +144,7 @@ class TextSplitNodesDelimiter(unittest.TestCase):
 
     def test_split_nodes_link(self):
         node = TextNode(
-            "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+            "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev) another link",
             TextType.TEXT,
         )
         new_nodes = split_nodes_link([node])
@@ -155,6 +155,7 @@ class TextSplitNodesDelimiter(unittest.TestCase):
             TextNode(
                 "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
             ),
+            TextNode(" another link", TextType.TEXT)
         ]
         self.assertListEqual(
             new_nodes,
@@ -163,7 +164,7 @@ class TextSplitNodesDelimiter(unittest.TestCase):
 
     def test_split_nodes_image(self):
         node = TextNode(
-            "This is text with an image ![image one](image1.jpg) and ![image two](image2.jpg)",
+            "This is text with an image ![image one](image1.jpg) and ![image two](image2.jpg) another image",
             TextType.TEXT,
         )
         new_nodes = split_nodes_image([node])
@@ -172,6 +173,7 @@ class TextSplitNodesDelimiter(unittest.TestCase):
             TextNode("image one", TextType.IMAGE, "image1.jpg"),
             TextNode(" and ", TextType.TEXT),
             TextNode("image two", TextType.IMAGE, "image2.jpg"),
+            TextNode(" another image", TextType.TEXT),
         ]
         self.assertListEqual(
             new_nodes,
