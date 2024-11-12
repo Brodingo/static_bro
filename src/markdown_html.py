@@ -1,3 +1,5 @@
+import os
+
 from htmlnode import ParentNode, LeafNode
 from textnode import TextNode, TextType, text_node_to_html_node
 from inline_markdown import text_to_textnodes
@@ -16,7 +18,7 @@ def format_quote(block):
     lines = block.split('\n')
     text = []
     for line in lines:
-        text.append(line[1:])
+        text.append(line.lstrip(">").strip())
     children = text_to_children('\n'.join(text))
     return ParentNode('blockquote', children)
 
@@ -73,3 +75,4 @@ def markdown_to_html_node(markdown):
         block_type = block_to_block_type(block)
         children.append(block_to_html_node(block, block_type))
     return ParentNode('div', children, None)
+

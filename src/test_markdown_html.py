@@ -83,3 +83,16 @@ class TestMarkdownHTML(unittest.TestCase):
            result,
            html
         )
+
+    def test_markdown_to_html_node_image(self):
+        markdown = (
+            "This is a paragraph of text. It has an image ![LOTR image artistmonkeys](/images/rivendell.png) inside of it."
+        )
+        node = markdown_to_html_node(markdown)
+        result = node.to_html()
+        html = '<div><p>This is a paragraph of text. It has an image <img src="/images/rivendell.png" alt="LOTR image artistmonkeys"></img> inside of it.</p></div>'
+        self.assertEqual(
+           result,
+           html
+        )
+
