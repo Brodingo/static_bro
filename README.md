@@ -1,6 +1,6 @@
 # Python Static Site Generator
 
-A Python-based static site generator that converts markdown to HTML. This built as part of the [boot.dev](https://boot.dev) curriculum.
+A Python-based static site generator that converts markdown to HTML. This was built as part of the [boot.dev](https://boot.dev) curriculum.
 
 ## Commands
 
