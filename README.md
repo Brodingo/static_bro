@@ -1,10 +1,11 @@
+# Python Static Site Generator
+
+A Python-based static site generator that converts markdown to HTML. This built as part of the [boot.dev](https://boot.dev) curriculum.
+
 ## Commands
 
-Run the local http server
-`python3 -m http.server 8888`
-
-Run the build command
-`python3 src/main.py`
+Run the build script and HTTP server
+`./main.sh`
 
 May need to allow execute
 `chmod +x main.sh`
